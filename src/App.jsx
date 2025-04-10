@@ -1,41 +1,45 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 function App() {
+ const [clock , setClock] =  useState(0);
+const [toggle,setToggle] = useState(false)
 
-const [play,setPlay] = useState(false)
-const [count,setCount]= useState(0)
 
-function handleClick(){
-  setPlay( (c)=>!c)
+useEffect(()=>{
+
+const interval  = setInterval(() => {
+
+  setClock(c => c+1);
+  
+},1000)
+
+return () =>{ clearInterval(interval)}
+
+},[])
+
+
+
+
+
+ function Player (){
+  setToggle((p) => !p)
+
  }
 
-  useEffect(() => {
-    if (!play) return;
-    const interval = setInterval(() => {
-      setCount((c) => c + 1);
+ function Reset () {
+  setClock(0)
 
-    },1000);
-    return () => clearInterval(interval);
-  },[play])
-
-
-function notok(){
-  return(
-    <div>
-      <h2>Not Ok</h2>
-    </div>
-  )}
+ }
 
 
   return (
-   <> 
-   <div>{play? count: notok()}</div>
-   <button onClick={handleClick}>
-    {play? "Pause" : "Play"}
-   </button>
-   </>
-  )
+    <div >
+      <div>{clock}</div>
+     <button onClick={Player}>{toggle ? "Pause" : "Start"}</button>
+     <button onClick={Reset}>Reset</button>
+      
+    </div>
+  );
 }
 
-export default App
+export default App;
